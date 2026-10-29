@@ -125,7 +125,7 @@ ggplot(
 
 
 # Figure 2: Home win percentage by league and season
-ggplot(
+season_plot <- ggplot(
   home_win_by_season,
   aes(
     x = season,
@@ -146,6 +146,7 @@ ggplot(
   theme(
     axis.text.x = element_text(angle = 45, hjust = 1)
   )
+print(season_plot)
 
 
 # 8. Summarise the findings
@@ -180,7 +181,39 @@ write.csv(
 # Save the seasonal home win percentage chart
 ggsave(
   "home_win_by_season.png",
+  plot = season_plot,
   width = 10,
   height = 6,
+  dpi = 300
+)
+# 10. Create a bar chart to compare home win percentages
+
+league_plot <- ggplot(
+  home_win_by_league,
+  aes(
+    x = reorder(league, home_win_percentage),
+    y = home_win_percentage,
+    fill = league
+  )
+) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Home Win Percentage by League",
+    x = "League",
+    y = "Home Wins (%)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+# Display the chart
+print(league_plot)
+
+# Save the chart
+ggsave(
+  "home_win_by_league.png",
+  plot = league_plot,
+  width = 8,
+  height = 5,
   dpi = 300
 )
